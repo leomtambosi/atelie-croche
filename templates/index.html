@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Seção de Categorias -->
+<section class="section-categories">
+    <h2>Explore por Categoria</h2>
+    <p class="section-desc">Clique em uma categoria para ver os modelos disponíveis</p>
+    
+    <div class="categories-grid">
+        {% for cat in categorias %}
+        <a href="{{ url_for('categoria', slug=cat.slug) }}" class="category-card">
+            <span class="cat-icon">{{ cat.icone }}</span>
+            <h3>{{ cat.nome }}</h3>
+            <span class="cat-link">Ver modelos &rarr;</span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Seção de Destaques -->
+<section class="section-highlights">
+    <h2>Modelos em Destaque</h2>
+    <div class="products-grid">
+        {% for produto in produtos %}
+        <div class="product-card">
+            <div class="product-img-wrapper">
+                <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
+                <span class="product-badge">{{ produto.codigo }}</span>
+            </div>
+            <div class="product-info">
+                <span class="product-cat-tag">{{ produto.categoria_nome }}</span>
+                <h3>{{ produto.nome }}</h3>
+                <p class="product-desc">{{ produto.descricao }}</p>
+                <div class="product-details">
+                    <span>🧶 {{ produto.fio }}</span>
+                    <span>⏱️ {{ produto.tempo }}</span>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">{{ produto.preco }}</span>
+                    <button class="btn-whatsapp" onclick="encomendarWhatsApp('{{ produto.nome }}', '{{ produto.codigo }}')">
+                        💬 Encomendar
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

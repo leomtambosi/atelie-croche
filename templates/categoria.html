@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="category-header-page">
+    <a href="/" class="back-link">&larr; Voltar para a Página Inicial</a>
+    <h2>{{ nome_categoria }}</h2>
+    <p class="section-desc">Escolha seu modelo favorito e encomende sob medida</p>
+</div>
+
+<section class="section-highlights">
+    {% if produtos %}
+    <div class="products-grid">
+        {% for produto in produtos %}
+        <div class="product-card">
+            <div class="product-img-wrapper">
+                <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
+                <span class="product-badge">{{ produto.codigo }}</span>
+            </div>
+            <div class="product-info">
+                <h3>{{ produto.nome }}</h3>
+                <p class="product-desc">{{ produto.descricao }}</p>
+                <div class="product-details">
+                    <span>🧶 {{ produto.fio }}</span>
+                    <span>⏱️ {{ produto.tempo }}</span>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">{{ produto.preco }}</span>
+                    <button class="btn-whatsapp" onclick="encomendarWhatsApp('{{ produto.nome }}', '{{ produto.codigo }}')">
+                        💬 Encomendar
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-products text-center">
+        <p>Ainda não há peças cadastradas nesta categoria. Volte em breve ou faça uma encomenda personalizada!</p>
+        <br>
+        <a href="/" class="btn-whatsapp" style="display: inline-block; text-decoration: none;">Ver outras peças</a>
+    </div>
+    {% endif %}
+</section>
+
+{% endblock %}
