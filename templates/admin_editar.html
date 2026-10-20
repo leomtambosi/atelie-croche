@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 700px; margin: 0 auto;">
+    <div style="margin-bottom: 20px;">
+        <a href="{{ url_for('admin_dashboard') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">&larr; Voltar para o Painel</a>
+        <h2 style="font-family: 'Playfair Display', serif; margin-top: 10px;">Editar Peça: {{ produto.nome }}</h2>
+    </div>
+
+    <div class="product-card" style="padding: 25px;">
+        <form action="{{ url_for('admin_editar_produto', produto_id=produto.id) }}" method="POST" enctype="multipart/form-data">
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Nome da Peça:</label>
+                    <input type="text" name="nome" value="{{ produto.nome }}" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Código Único:</label>
+                    <input type="text" name="codigo" value="{{ produto.codigo }}" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Categoria:</label>
+                    <select name="categoria" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px; background: white;">
+                        <option value="amigurumis" {% if produto.categoria == 'amigurumis' %}selected{% endif %}>Amigurumis</option>
+                        <option value="mesa-posta" {% if produto.categoria == 'mesa-posta' %}selected{% endif %}>Mesa Posta & Decoração</option>
+                        <option value="moda-acessorios" {% if produto.categoria == 'moda-acessorios' %}selected{% endif %}>Moda & Acessórios</option>
+                        <option value="linha-infantil" {% if produto.categoria == 'linha-infantil' %}selected{% endif %}>Linha Infantil</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Preço Estimado:</label>
+                    <input type="text" name="preco" value="{{ produto.preco }}" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Fio / Linha Utilizada:</label>
+                    <input type="text" name="fio" value="{{ produto.fio }}" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Tempo de Confecção:</label>
+                    <input type="text" name="tempo" value="{{ produto.tempo }}" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Descrição Curta:</label>
+                <textarea name="descricao" rows="3" style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">{{ produto.descricao }}</textarea>
+            </div>
+
+            <!-- Foto atual -->
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; background: var(--secondary); padding: 12px; border-radius: 8px;">
+                <img src="{{ produto.imagem }}" alt="Foto atual" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+                <div>
+                    <span style="font-size: 0.8rem; font-weight: 600; display: block;">Foto atual do produto</span>
+                    <span style="font-size: 0.75rem; color: var(--text-light);">Se quiser trocar, selecione um novo arquivo abaixo (opcional):</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Nova Foto (Opcional):</label>
+                <input type="file" name="imagem" accept="image/*" style="padding: 5px;">
+            </div>
+
+            <button type="submit" class="btn-whatsapp" style="padding: 12px 25px; font-size: 1rem;">Salvar Alterações</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

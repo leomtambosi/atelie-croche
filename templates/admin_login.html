@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 400px; margin: 40px auto;" class="product-card">
+    <div class="product-info" style="padding: 30px;">
+        <h2 class="text-center" style="font-family: 'Playfair Display', serif; margin-bottom: 20px;">Painel da Artesã</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">Senha de Acesso:</label>
+                <input type="password" name="senha" required placeholder="Digite a senha..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <button type="submit" class="btn-whatsapp" style="width: 100%; padding: 12px; font-size: 1rem;">Entrar no Painel</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

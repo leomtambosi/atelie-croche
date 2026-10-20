@@ -1,15 +1,27 @@
 [
   {
-    "id": 1,
+    "id": 7,
     "codigo": "AMIG-01",
-    "nome": "Ursinho Amigurumi Clássico",
+    "nome": "urso",
     "categoria": "amigurumis",
     "categoria_nome": "Amigurumis",
-    "preco": "R$ 85,00",
-    "fio": "100% Algodão Mercerizado",
-    "tempo": "3 a 5 dias úteis",
-    "imagem": "https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=600&auto=format&fit=crop",
-    "descricao": "Feito à mão com linha super macia e enchimento antialérgico. Ideal para decoração ou presente infantil."
+    "preco": "R$80,00",
+    "fio": "amigurumi",
+    "tempo": "8 dias",
+    "imagem": "/static/images/produtos/amig-01_LKiHcNW9zjEGqu0Ffy9aaSAWLF9izGe1FTWnXInD.png",
+    "descricao": "urso bonito"
+  },
+  {
+    "id": 5,
+    "codigo": "AMIG-02",
+    "nome": "urso",
+    "categoria": "amigurumis",
+    "categoria_nome": "Amigurumis",
+    "preco": "90,00",
+    "fio": "algodao",
+    "tempo": "7 dias",
+    "imagem": "https://via.placeholder.com/600x600?text=Sem+Foto",
+    "descricao": "urso peludo"
   },
   {
     "id": 2,

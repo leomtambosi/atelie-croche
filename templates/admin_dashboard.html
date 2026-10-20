@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <div>
+        <h2>Painel de Gerenciamento</h2>
+        <p class="section-desc">Cadastre novas peças ou gerencie os itens do catálogo</p>
+    </div>
+    <a href="{{ url_for('admin_logout') }}" style="color: #c8846c; text-decoration: none; font-weight: 600;">Sair do Painel &rarr;</a>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!-- Form para Cadastrar Nova Peça -->
+<div class="product-card" style="padding: 25px; margin-bottom: 40px;">
+    <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 20px; color: var(--primary-dark);">➕ Cadastrar Nova Peça de Crochê</h3>
+    
+    <form action="{{ url_for('admin_novo_produto') }}" method="POST" enctype="multipart/form-data">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 15px;">
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Nome da Peça:</label>
+                <input type="text" name="nome" placeholder="Ex: Ursinho Amigurumi" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Código Único:</label>
+                <input type="text" name="codigo" placeholder="Ex: AMIG-02" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Categoria:</label>
+                <select name="categoria" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px; background: white;">
+                    <option value="amigurumis">Amigurumis</option>
+                    <option value="mesa-posta">Mesa Posta & Decoração</option>
+                    <option value="moda-acessorios">Moda & Acessórios</option>
+                    <option value="linha-infantil">Linha Infantil</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Preço Estimado:</label>
+                <input type="text" name="preco" placeholder="Ex: R$ 85,00" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Fio / Linha Utilizada:</label>
+                <input type="text" name="fio" placeholder="Ex: 100% Algodão Mercerizado" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Tempo de Confecção:</label>
+                <input type="text" name="tempo" placeholder="Ex: 3 a 5 dias úteis" required style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Descrição Curta:</label>
+            <textarea name="descricao" rows="2" placeholder="Detalhes como tamanho, enchimento, opções de cores..." style="width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Foto do Produto (Do seu celular/computador):</label>
+            <input type="file" name="imagem" accept="image/*" required style="padding: 5px;">
+        </div>
+
+        <button type="submit" class="btn-whatsapp" style="padding: 12px 25px; font-size: 1rem;">Salvar no Catálogo</button>
+    </form>
+</div>
+
+<!-- Tabela de Itens Cadastrados -->
+<h3 style="font-family: 'Playfair Display', serif; margin-bottom: 15px;">Peças Atuais no Catálogo ({{ produtos|length }})</h3>
+
+<div style="overflow-x: auto; background: white; border-radius: 12px; border: 1px solid #eee;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+        <thead>
+            <tr style="background: var(--secondary); border-bottom: 1px solid #ddd;">
+                <th style="padding: 12px;">Foto</th>
+                <th style="padding: 12px;">Código</th>
+                <th style="padding: 12px;">Nome</th>
+                <th style="padding: 12px;">Categoria</th>
+                <th style="padding: 12px;">Preço</th>
+                <th style="padding: 12px; text-align: center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prod in produtos %}
+            <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 8px 12px;">
+                    <img src="{{ prod.imagem }}" alt="{{ prod.nome }}" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px;">
+                </td>
+                <td style="padding: 12px; font-weight: bold;">{{ prod.codigo }}</td>
+                <td style="padding: 12px;">{{ prod.nome }}</td>
+                <td style="padding: 12px;">{{ prod.categoria_nome }}</td>
+                <td style="padding: 12px;">{{ prod.preco }}</td>
+                <td style="padding: 12px; text-align: center;">
+                <td style="padding: 12px; text-align: center; display: flex; gap: 8px; justify-content: center;">
+                    <a href="{{ url_for('admin_editar_produto', produto_id=prod.id) }}" style="background: #f39c12; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">
+                        ✏️ Editar
+                    </a>
+                    <form action="{{ url_for('admin_deletar_produto', produto_id=prod.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar esta peça?');">
+                        <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+                            🗑️ Excluir
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
